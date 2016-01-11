@@ -90,42 +90,26 @@ mkdir ~/opt ~/opt/data ~/opt/data/mysql ~/opt/data/elasticsearch ~/opt/log ~/opt
 Clone本项目
 
 ```
-cd ~/opt/htdocs
-git clone https://github.com/EvaEngine/Dockerfiles.git
-cd Dockerfiles
+cd ~
+git clone https://github.com/pemgqiuyuan/opt.git
+cd ~/opt/htdocs/Dockerfiles
 ```
 
-下载镜像及构建
+下载镜像及构建(注意替换)
+```
+10.0.29.249:5000/jetty           | docker pull jetty:8.1.17   | 注：（https://github.com/pengqiuyuan/docker-jetty8.1.17-jdk8）
+10.0.29.249:5000/mysql           | docker pull mysql:5.6
+10.0.29.249:5000/redis           | docker pull redis:latest
+10.0.29.249:5000/elasticsearch   | docker pull elasticsearch:1.7.3
+10.0.29.249:5000/logstash        | docker pull logstash:1.5.4
+10.0.29.249:5000/nginx           | docker pull nginx:1.9.0
+10.0.29.249:5000/java            | docker pull java:8-jdk               
+```
 
-```
-make dl
-make build
-```
 
 构建及运行环境
 
 ```
 docker-compose build
-docker-compose up
-```
-
-绑定域名
-
-```
-sudo vi /etc/hosts
-加入
-192.168.59.103 docker local.evaengine.com static.evaengine.com
-```
-
-现在可以通过访问`http://docker/`来查看Web服务器根目录
-
-
-构建EvaSkeleton项目文件
-
-```
-cd ~/opt/htdocs
-git clone https://github.com/EvaEngine/EvaSkeleton.git
-cd EvaSkeleton
-cp config/config.local.dev.php config/config.local.php
-make install
+docker-compose up -d
 ```
