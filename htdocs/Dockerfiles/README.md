@@ -73,7 +73,7 @@ DOCKER_OPTS=" --registry-mirror http://192.168.11.180:5000 --insecure-registry 1
 service docker restart
 ```
 
-## 启动EvaSkeleton
+## 启动opt
 
 准备基础的目录，由于Mac下默认允许挂载/Users/的文件，因此本套方案将系统文件挂载位置强制设置为`~/opt/`
 
