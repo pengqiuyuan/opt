@@ -1,0 +1,42 @@
+{
+  "template" : "log_*",
+  "settings" : {
+    "index.refresh_interval" : "15s"
+  },
+    "mappings": {
+        "_default_": {
+            "_all": {
+                "enabled": true
+            }, 
+            "dynamic_templates": [
+                {
+                    "string_fields": {
+                        "mapping": {
+                            "index": "not_analyzed", 
+                            "type": "string",
+                            "doc_values": true, 
+                            "ignore_unmapped": true
+                        }, 
+                        "match_mapping_type": "string", 
+                        "match": "*"
+                    }
+                },
+                {
+                    "date_fields": {
+                        "mapping": {
+                            "type": "date",
+                            "doc_values": true, 
+                            "ignore_unmapped": true
+                        }, 
+                        "match_mapping_type": "date", 
+                        "match": "*"
+                    }
+                }
+            ], 
+       "properties" : {
+         "@timestamp": { "type": "date", "index": "not_analyzed", "doc_values": true, "format": "dateOptionalTime","ignore_unmapped" : true},
+         "date" : { "type" : "date","ignore_unmapped" : true}
+       }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+
+nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    links:
+      - "jetty"
+    volumes:
+      - ~/opt/htdocs/Dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ~/opt/logs/nginx:/etc/nginx/logs
+jetty:
+    build: ./jetty
+    ports:
+      - "8080:8080"
+    links:
+      - "mysql"
+      - "elasticsearch"
+    volumes:
+      - ~/opt/htdocs/Dockerfiles/jetty/webapps:/opt/jetty/webapps
+      - ~/opt/logs/jetty:/opt/jetty/logs
+mysql:
+    build: ./mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ~/opt/htdocs/Dockerfiles/mysql/game_server.sql:/docker-entrypoint-initdb.d/game_server.sql
+      - ~/opt/data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: game_server
+elasticsearch:
+    build: ./elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ~/opt/htdocs/Dockerfiles/elasticsearch/bin/elasticsearch.in.sh:/usr/share/elasticsearch/bin/elasticsearch.in.sh
+      - ~/opt/htdocs/Dockerfiles/elasticsearch/config:/usr/share/elasticsearch/config
+      - ~/opt/data/elasticsearch/data:/usr/share/elasticsearch/data
+    mem_limit: 2g
+redis:
+    build: ./redis
+    ports:
+      - "6379:6379"
+logstashindexerkds:
+    build: ./logstash
+    volumes:
+        - ~/opt/htdocs/Dockerfiles/logstash/kds/index.conf:/opt/logstash/conf/index.conf
+    links:
+        - "redis"
+        - "elasticsearch"
+    command: logstash agent  -f /opt/logstash/conf/index.conf

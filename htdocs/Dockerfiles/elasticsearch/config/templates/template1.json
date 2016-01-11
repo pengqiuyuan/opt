@@ -1,0 +1,128 @@
+{
+    "template": "logstash*", 
+    "settings": {
+        "index.refresh_interval": "15s"
+    }, 
+    "mappings": {
+        "_default_": {
+            "_all": {
+                "enabled": true
+            }, 
+            "dynamic_templates": [
+                {
+                    "string_fields": {
+                        "mapping": {
+                            "index": "not_analyzed", 
+                            "type": "string",
+                            "doc_values": true, 
+                            "ignore_unmapped": true
+                        }, 
+                        "match_mapping_type": "string", 
+                        "match": "*"
+                    }
+                },
+                {
+                    "date_fields": {
+                        "mapping": {
+                            "type": "date",
+                            "doc_values": true, 
+                            "ignore_unmapped": true
+                        }, 
+                        "match_mapping_type": "date", 
+                        "match": "*"
+                    }
+                }
+            ], 
+            "properties": {
+                "@version": {
+                    "type": "string", 
+                    "index": "not_analyzed"
+                }, 
+                "@timestamp": {
+                    "type": "date", 
+                    "index": "not_analyzed", 
+                    "doc_values": true, 
+                    "format": "dateOptionalTime"
+                }, 
+                "geoip": {
+                    "type": "object", 
+                    "dynamic": true, 
+                    "path": "full", 
+                    "properties": {
+                        "location": {
+                            "type": "geo_point"
+                        }
+                    }, 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "日期": {
+                    "type": "date", 
+                    "index": "not_analyzed", 
+                    "doc_values": true, 
+                    "format": "yyyy-MM-dd HH:mm:ss.SSS"
+                }, 
+                "当前在线人数": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "增加的体力数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "消耗的体力数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "增加的道具数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "消耗的道具数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "增加的充值币数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "减少的充值币数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "购买的商品数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "增加的虚拟币数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "减少的虚拟币数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "增加的游戏币数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }, 
+                "减少的游戏币数量": {
+                    "type": "integer", 
+                    "doc_values": true, 
+                    "ignore_unmapped": true
+                }
+            }
+        }
+    }
+}
