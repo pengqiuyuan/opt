@@ -5,6 +5,33 @@
 - Docker
 - Docker compose
 
+## 修改配置
+elasticsearch目录
+```
+~/opt/htdocs/Dockerfiles/elasticsearch/config/elasticsearch.yml 最后一行修改为宿主机地址
+discovery.zen.ping.unicast.hosts: ["*.*.*.*"]
+```
+logstash目录
+```
+~/opt/htdocs/Dockerfiles/logstash/kds/agent.conf 修改1处为宿主机地址
+
+    host => "*.*.*.*"
+    
+~/opt/htdocs/Dockerfiles/logstash/kds/index.conf 修改4处为宿主机地址
+
+    host => "*.*.*.*"
+    host => ["*.*.*.*"]
+    host => ["*.*.*.*"]
+    host => ["*.*.*.*"]
+```
+nginx目录
+```
+~/opt/htdocs/Dockerfiles/nginx/nginx.conf 修改1处为宿主机地址
+    
+    upstream game-ser{
+       server *.*.*.*:8080;
+    }
+```
 构建及运行环境
 
 ```
