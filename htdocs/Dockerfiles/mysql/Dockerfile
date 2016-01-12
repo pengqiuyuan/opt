@@ -1,4 +1,4 @@
-FROM 10.0.29.249:5000/mysql
+FROM mysql:5.6
 
 # Write Permission
 RUN usermod -u 1000 mysql && chown mysql.mysql /var/run/mysqld/ 

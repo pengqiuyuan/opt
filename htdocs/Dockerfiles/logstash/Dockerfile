@@ -1,3 +1,3 @@
-FROM 10.0.29.249:5000/logstash
+FROM logstash:1.5.4
 
 
