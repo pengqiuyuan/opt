@@ -1,7 +1,7 @@
 # opt
 Use docker web server with elk 
 
-### structure
+### Structure
 ```
 ~/opt/htdocs/Dockerfiles
 ├── README.md
@@ -41,7 +41,7 @@ Use docker web server with elk
 
 ```
 
-### introduce
+### Introduce
 ```
 10.0.29.249:5000/jetty           | docker pull jetty:8.1.17   | 注：（https://github.com/pengqiuyuan/docker-jetty8.1.17-jdk8）
 10.0.29.249:5000/mysql           | docker pull mysql:5.6
@@ -51,4 +51,24 @@ Use docker web server with elk
 10.0.29.249:5000/nginx           | docker pull nginx:1.9.0
 10.0.29.249:5000/java            | docker pull java:8-jdk               
 
+```
+### Installation docker
+```
+$ sudo apt-get update
+$ sudo apt-get install docker-engine
+$ sudo service docker start
+```
+### Installation docker compose
+```
+$ pip install docker-compose
+$ curl -L https://github.com/docker/compose/releases/download/1.5.2/run.sh > /usr/local/bin/docker-compose
+$ chmod +x /usr/local/bin/docker-compose
+```
+### Installation docker registry
+```
+$ git clone https://github.com/docker/docker-registry.git
+$ cd docker-registry
+$ pip install .
+$ cp ./config/config_sample.yml  ./config/config.yml
+$ docker-registry (启动)
 ```
