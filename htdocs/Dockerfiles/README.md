@@ -26,10 +26,17 @@ logstash目录
 ```
 nginx目录
 ```
-~/opt/htdocs/Dockerfiles/nginx/nginx.conf 修改1处为宿主机地址
+~/opt/htdocs/Dockerfiles/nginx/nginx.conf 修改2处为宿主机地址
     
     upstream game-ser{
        server *.*.*.*:8080;
+    }
+    location /port/{
+      proxy_set_header    Host $http_host;
+      proxy_set_header    X-Real-IP   $remote_addr;
+      proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_redirect off;
+      proxy_pass  http://*.*.*.*:9200/;
     }
 ```
 构建及运行环境
