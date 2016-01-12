@@ -1,112 +1,37 @@
-# Run Under Mac
+# Run Under Ubuntu
 
 ## 环境要求
 
-Mac系统，已经安装过以下组件：
+- Docker
+- Docker compose
 
-- VirtualBox
-- git
-- Homebrew
-- pip
-
+## 修改配置
+elasticsearch目录
 ```
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-brew update
-brew install wget
-sudo easy_install pip
+~/opt/htdocs/Dockerfiles/elasticsearch/config/elasticsearch.yml 最后一行修改为宿主机地址
+discovery.zen.ping.unicast.hosts: ["*.*.*.*"]
 ```
-
-## 安装Docker/Boot2Docker/Docker-Compose
-
+logstash目录
 ```
-brew update
-brew tap homebrew/binary
-brew install docker boot2docker
-sudo pip install -U docker-compose
+~/opt/htdocs/Dockerfiles/logstash/kds/agent.conf 修改1处为宿主机地址
+
+    host => "*.*.*.*"
+    
+~/opt/htdocs/Dockerfiles/logstash/kds/index.conf 修改4处为宿主机地址
+
+    host => "*.*.*.*"
+    host => ["*.*.*.*"]
+    host => ["*.*.*.*"]
+    host => ["*.*.*.*"]
 ```
-
-
-初始化Boot2docker，Boot2docker默认会从AWS下载镜像，此处需要翻墙
-
-如果无法翻墙可以手动下载Boot2Docker所需ISO镜像
-
+nginx目录
 ```
-wget http://192.168.11.180/boot2docker.iso -O ~/.boot2docker/boot2docker.iso
+~/opt/htdocs/Dockerfiles/nginx/nginx.conf 修改1处为宿主机地址
+    
+    upstream game-ser{
+       server *.*.*.*:8080;
+    }
 ```
-
-```
-boot2docker init
-boot2docker start
-```
-
-内存充足的话，建议将虚拟机内存调整到4GB
-
-```
-VBoxManage modifyvm boot2docker-vm --memory 4096
-```
-
-运行Docker需要设置环境变量，建议在~/.bashrc中加入
-
-```
-if [ "`boot2docker status`" = "running" ]; then
-    eval "$(boot2docker shellinit)"
-fi
-```
-
-
-### 设置Docker镜像，加速下载
-
-Mac下：
-
-```
-boot2docker ssh
-sudo vi /var/lib/boot2docker/profile
-EXTRA_ARGS="--registry-mirror=http://192.168.11.180:5000"
-boot2docker restart
-```
-
-Ubuntu下:
-
-```
-vi /etc/default/docker
-DOCKER_OPTS=" --registry-mirror http://192.168.11.180:5000 --insecure-registry 192.168.11.180:5000"
-service docker restart
-```
-
-## 启动opt
-
-准备基础的目录，由于Mac下默认允许挂载/Users/的文件，因此本套方案将系统文件挂载位置强制设置为`~/opt/`
-
-- ~/opt/data   存放MySQL数据库，Elastic数据
-- ~/opt/htdocs 项目代码
-- ~/opt/log    存放所有输出Log
-
-创建这些目录:
-
-```
-mkdir ~/opt ~/opt/data ~/opt/data/mysql ~/opt/data/elasticsearch ~/opt/log ~/opt/log/nginx ~/opt/log/php ~/opt/htdocs
-```
-
-Clone本项目
-
-```
-cd ~
-git clone https://github.com/pemgqiuyuan/opt.git
-cd ~/opt/htdocs/Dockerfiles
-```
-
-下载镜像及构建(注意替换)
-```
-10.0.29.249:5000/jetty           | docker pull jetty:8.1.17   | 注：（https://github.com/pengqiuyuan/docker-jetty8.1.17-jdk8）
-10.0.29.249:5000/mysql           | docker pull mysql:5.6
-10.0.29.249:5000/redis           | docker pull redis:latest
-10.0.29.249:5000/elasticsearch   | docker pull elasticsearch:1.7.3
-10.0.29.249:5000/logstash        | docker pull logstash:1.5.4
-10.0.29.249:5000/nginx           | docker pull nginx:1.9.0
-10.0.29.249:5000/java            | docker pull java:8-jdk               
-```
-
-
 构建及运行环境
 
 ```
