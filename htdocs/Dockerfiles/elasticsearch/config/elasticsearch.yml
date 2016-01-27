@@ -27,5 +27,6 @@ index.store.compress.stored: true
 indices.store.throttle.type: merge
 indices.store.throttle.max_bytes_per_sec: 500mb
 
+network.publish_host: 10.0.29.152
 discovery.zen.ping.multicast.enabled: false
 discovery.zen.ping.unicast.hosts: ["10.0.29.152"]
