@@ -9,6 +9,7 @@ nginx:
       - /etc/localtime:/etc/localtime:ro
       - ~/opt/htdocs/Dockerfiles/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ~/opt/logs/nginx:/etc/nginx/logs
+    restart: always
 jetty:
     build: ./jetty
     ports:
@@ -20,6 +21,7 @@ jetty:
       - /etc/localtime:/etc/localtime:ro
       - ~/opt/htdocs/Dockerfiles/jetty/webapps:/opt/jetty/webapps
       - ~/opt/logs/jetty:/opt/jetty/logs
+    restart: always
 mysql:
     build: ./mysql
     ports:
@@ -31,6 +33,7 @@ mysql:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: game_server
+    restart: always
 elasticsearch:
     build: ./elasticsearch
     ports:
@@ -42,10 +45,12 @@ elasticsearch:
       - ~/opt/htdocs/Dockerfiles/elasticsearch/config:/usr/share/elasticsearch/config
       - ~/opt/data/elasticsearch/data:/usr/share/elasticsearch/data
     mem_limit: 2g
+    restart: always
 redis:
     build: ./redis
     ports:
       - "6379:6379"
+    restart: always
 logstashindexerkds:
     build: ./logstash
     volumes:
@@ -55,3 +60,4 @@ logstashindexerkds:
         - "redis"
         - "elasticsearch"
     command: logstash agent  -f /opt/logstash/conf/index.conf
+    restart: always
