@@ -23,7 +23,7 @@ jetty:
 mysql:
     build: ./mysql
     ports:
-      - "3305:3306"
+      - "3306:3306"
     volumes:
       - ~/opt/htdocs/Dockerfiles/mysql/game_server.sql:/docker-entrypoint-initdb.d/game_server.sql
       - ~/opt/data/mysql:/var/lib/mysql
@@ -45,7 +45,7 @@ elasticsearch:
 redis:
     build: ./redis
     ports:
-      - "6378:6379"
+      - "6379:6379"
     restart: always
 logstashindexerkds:
     build: ./logstash
@@ -55,16 +55,4 @@ logstashindexerkds:
         - "redis"
         - "elasticsearch"
     command: logstash agent  -f /opt/logstash/conf/index.conf
-    restart: always
-gomiddle:
-    build: ./go
-    ports: 
-        - "8889:8889"
-        - "8888:8888"
-    volumes:
-        - ~/opt/htdocs/Dockerfiles/go/app/server:/go/src/app/server
-    working_dir: /go/src/app
-    command: ./server
-    links:
-        - "mysql"
     restart: always
