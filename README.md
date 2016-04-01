@@ -30,6 +30,11 @@ Use docker web server with elk
 │       └── templates
 │           ├── template1.json
 │           └── template2.json
+├── go
+│   ├── Dockerfile
+│   └── app
+│       ├── client_tcp
+│       └── server
 ├── logstash
 │   ├── Dockerfile
 │   └── kds
@@ -46,10 +51,11 @@ Use docker web server with elk
 10.0.29.249:5000/jetty           | docker pull jetty:8.1.17   | 注：（https://github.com/pengqiuyuan/docker-jetty8.1.17-jdk8）
 10.0.29.249:5000/mysql           | docker pull mysql:5.6
 10.0.29.249:5000/redis           | docker pull redis:latest
-10.0.29.249:5000/elasticsearch   | docker pull elasticsearch:1.7.3
-10.0.29.249:5000/logstash        | docker pull logstash:1.5.4
+10.0.29.249:5000/elasticsearch   | docker pull elasticsearch:2.2.1
+10.0.29.249:5000/logstash        | docker pull logstash:2.3
 10.0.29.249:5000/nginx           | docker pull nginx:1.9.0
-10.0.29.249:5000/java            | docker pull java:8-jdk               
+10.0.29.249:5000/java            | docker pull java:8-jdk           
+10.0.29.249:5000/golang          | docker pull golang:1.6   
 
 ```
 ### Installation docker
