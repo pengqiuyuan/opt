@@ -33,6 +33,11 @@ mysql:
     restart: always
 elasticsearch:
     build: ./elasticsearch
+    ulimits:
+      nproc: 65536
+      nofile:
+        soft: 65536
+        hard: 65536
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -42,6 +47,7 @@ elasticsearch:
       - ~/opt/data/elasticsearch/data:/usr/share/elasticsearch/data
     mem_limit: 2g
     restart: always
+    privileged: true
 redis:
     build: ./redis
     ports:
