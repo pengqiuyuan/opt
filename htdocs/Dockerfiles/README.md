@@ -39,9 +39,14 @@ nginx目录
       proxy_pass  http://*.*.*.*:9200/;
     }
 ```
+bin目录
+```
+docker-compose build && docker-compose up -d
+curl -XPUT 'http://10.0.29.111:9200/_template/template1' -d@/root/opt/htdocs/Dockerfiles/elasticsearch/config/templates/template1.json
+curl -XPUT 'http://10.0.29.111:9200/_template/template2' -d@/root/opt/htdocs/Dockerfiles/elasticsearch/config/templates/template2.json
+```
 构建及运行环境
 
 ```
-docker-compose build
-docker-compose up -d
+bin/start.sh
 ```
