@@ -17,8 +17,9 @@ jetty:
       - "mysql"
       - "elasticsearch"
     volumes:
-      - ~/opt/htdocs/Dockerfiles/jetty/webapps:/opt/jetty/webapps
-      - ~/opt/logs/jetty:/opt/jetty/logs
+     - ~/opt/jenkins/mnt/jenkins_home/workspace/game-server/target/game-server.war:/opt/jetty/webapps/game-server.war
+     #- ~/opt/htdocs/Dockerfiles/jetty/webapps/game-server.war:/opt/jetty/webapps/game-server.war
+     - ~/opt/logs/jetty:/opt/jetty/logs
     restart: always
 mysql:
     build: ./mysql
@@ -73,4 +74,14 @@ gomiddle:
     command: ./server
     links:
         - "mysql"
+    restart: always
+jenkins:
+    build: ./jenkins
+    ports:
+      - "8081:8080"
+      - "50001:50000"
+    container_name: dockerfiles_jenkins_1
+    volumes:
+      - ~/opt/jenkins/mnt/jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock 
     restart: always
