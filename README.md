@@ -81,3 +81,4 @@ $ git clone https://github.com/pengqiuyuan/opt-docker-registry.git
 $ cd ~/opt-docker-registry/htdocs/Dockerfiles
 $ docker-compose build && docker-compose up -d
 ```
+![image](https://cloud.githubusercontent.com/assets/4953205/14697815/21b3711a-07ba-11e6-8940-3e931940b764.png)
