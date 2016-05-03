@@ -50,3 +50,8 @@ curl -XPUT 'http://10.0.29.111:9200/_template/template2' -d@/root/opt/htdocs/Doc
 ```
 bin/start.sh
 ```
+ docker run -d -p 8888:8888 -p 8889:8889 --name gomiddle_golang --link dockerfiles_mysql_1:dockerfiles_mysql_1 --restart=always \
+  -v ~/opt/jenkins/mnt/jenkins_home/workspace/$JOB_NAME:/usr/src/gomiddle \
+  -v ~/opt/jenkins/mnt/gopath:/usr/src/gopath \
+  -w /usr/src/gomiddle -e "GOPATH=/usr/src/gopath" -e "CGO_ENABLED=0" -e "GOOS=linux" \
+  10.0.29.249:5000/golang:1.5.2-alpine  env GOOS=linux GOARM=amd64 go run server.go 
