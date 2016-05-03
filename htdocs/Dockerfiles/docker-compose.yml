@@ -17,10 +17,14 @@ jetty:
       - "mysql"
       - "elasticsearch"
     volumes:
-     - ~/opt/jenkins/mnt/jenkins_home/workspace/game-server/target/game-server.war:/opt/jetty/webapps/game-server.war
-     #- ~/opt/htdocs/Dockerfiles/jetty/webapps/game-server.war:/opt/jetty/webapps/game-server.war
-     - ~/opt/logs/jetty:/opt/jetty/logs
+      # - ~/opt/jenkins/mnt/jenkins_home/workspace/game-server/target/game-server.war:/opt/jetty/webapps/game-server.war
+      - ~/opt/htdocs/Dockerfiles/jetty/bin/jetty.sh:/opt/jetty/bin/jetty.sh
+      - ~/opt/htdocs/Dockerfiles/jetty/webapps/game-server.war:/opt/jetty/webapps/game-server.war
+      - ~/opt/logs/jetty:/opt/jetty/logs
+    environment:
+      - "JAVA_OPTS=-Xms1g -Xmx1g"
     restart: always
+    mem_limit: 1g
 mysql:
     build: ./mysql
     ports:
@@ -34,21 +38,24 @@ mysql:
     restart: always
 elasticsearch:
     build: ./elasticsearch
-    ulimits:
-      nproc: 65536
-      nofile:
-        soft: 65536
-        hard: 65536
     ports:
       - "9200:9200"
       - "9300:9300"
     volumes:
-      - ~/opt/htdocs/Dockerfiles/elasticsearch/bin/elasticsearch.in.sh:/usr/share/elasticsearch/bin/elasticsearch.in.sh
       - ~/opt/htdocs/Dockerfiles/elasticsearch/config:/usr/share/elasticsearch/config
       - ~/opt/data/elasticsearch/data:/usr/share/elasticsearch/data
     mem_limit: 2g
-    restart: always
+    environment:
+      - ES_HEAP_SIZE=1g
+      - MAX_OPEN_FILES=64000
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
     privileged: true
+    restart: always
 redis:
     build: ./redis
     ports:
@@ -63,18 +70,18 @@ logstashindexerkds:
         - "elasticsearch"
     command: logstash agent  -f /opt/logstash/conf/index.conf
     restart: always
-gomiddle:
-    build: ./go
-    ports: 
-        - "8889:8889"
-        - "8888:8888"
-    volumes:
-        - ~/opt/htdocs/Dockerfiles/go/app/server:/go/src/app/server
-    working_dir: /go/src/app
-    command: ./server
-    links:
-        - "mysql"
-    restart: always
+#gomiddle:
+#    build: ./go
+#    ports: 
+#        - "8889:8889"
+#        - "8888:8888"
+#    volumes:
+#        - ~/opt/jenkins/mnt/jenkins_home/workspace/gomiddle/server:/go/src/app/server
+#    working_dir: /go/src/app
+#    command: ./server
+#    links:
+#        - "mysql"
+#    restart: always
 jenkins:
     build: ./jenkins
     ports:
@@ -84,4 +91,8 @@ jenkins:
     volumes:
       - ~/opt/jenkins/mnt/jenkins_home:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock 
+    environment:
+      - "JAVA_OPTS=-Xms512m -Xmx512m"
+      - "JENKINS_OPTS=--handlerCountStartup=50 --handlerCountMax=100"
+    mem_limit: 1g
     restart: always
