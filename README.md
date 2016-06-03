@@ -20,6 +20,10 @@ Use docker web server with elk
 ├── mysql
 │   ├── Dockerfile
 │   └── *.sql
+├── maven
+│   ├── Dockerfile
+│   └── maven
+│       └── repository
 ├── redis
 │   └── Dockerfile
 ├── elasticsearch
@@ -59,6 +63,7 @@ Use docker web server with elk
 10.0.29.249:5000/java               | docker pull java:8-jdk           
 10.0.29.249:5000/golang             | docker pull golang:1.6   
 10.0.29.249:5000/jayqqaa12/jenkins  | docker pull jayqqaa12/jenkins
+10.0.29.249:5000/maven              | docker pull maven:3.3.3-jdk-8
 
 ```
 ### Installation docker (1.9.1)
